@@ -1,0 +1,11 @@
+pyyaml
+langgraph
+langchain_community
+langchain_openai
+langchain-google-genai
+langchain_weaviate
+langchain_huggingface
+langchain_together
+langgraph-checkpoint-redis
+sentence-transformers
+pydantic

@@ -2,6 +2,7 @@ import uuid
 import json
 from langchain.tools import tool
 from typing import List, Dict, Optional, Any, Callable
+from langchain_community.utilities import DuckDuckGoSearchAPIWrapper
 
 
 # =====================================
@@ -20,6 +21,12 @@ def direct_reply(reply_message: str, recipients: List[str]) -> Dict[str, Any]:
     """Send messages to participants."""
     return {"ok": True, "sent_to": recipients}
 
+
+@tool
+def send_email(email_message: str, recipients: List[str]) -> Dict[str, Any]:
+    """Send email to participants."""
+    print(f"Sending email to {recipients}: {email_message}")
+    return {"ok": True, "sent_to": recipients}
 
 @tool
 def waiting_for_message(timeout_seconds: int = 60) -> Dict[str, Any]:
@@ -62,12 +69,12 @@ def task_extraction(task_data: Dict[str, Any]) -> Dict[str, Any]:
 @tool
 def web_search(query: str) -> Dict[str, Any]:
     """Search the web for information."""
+    ddg_wrapper = DuckDuckGoSearchAPIWrapper()
+    results = ddg_wrapper.results(query, max_results=5)
+    urls = [result['link'] for result in results]
     return {
         "ok": True,
-        "results": [
-            {"title": "AI in Medicine Overview", "url": "https://example.com/1"},
-            {"title": "Recent Medical AI Advances", "url": "https://example.com/2"}
-        ]
+        "results": urls
     }
 
 @tool
@@ -192,9 +199,9 @@ TOOL_REGISTRY: Dict[str, Callable] = {
     "configure_assistant": configure_assistant,
     "check_assistant_config": check_assistant_config,
     "fetch_context": fetch_context,
-   # "search_knowledge_base": search_knowledge_base,
     "create_group": create_group,
     "direct_reply": direct_reply,
+    "send_email": send_email,
     "waiting_for_message": waiting_for_message,
     "check_reminder_status": check_reminder_status,
     "evaluate_responses": evaluate_responses,

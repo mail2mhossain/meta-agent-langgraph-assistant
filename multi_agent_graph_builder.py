@@ -294,6 +294,14 @@ def main():
         print(f"\n✅ Task completed successfully!")
         print(f"Iterations: {result2['iterations']}")
 
+        agent_results = result2["agent_results"]
+
+        agent_name, agent_result = next(reversed(agent_results.items()))
+        print("\n" + "─"*80)
+        print(f"Agent: {agent_name}")
+        print(f"Result: {agent_result}")
+        print("─"*80)
+
 
 
 if __name__ == "__main__":

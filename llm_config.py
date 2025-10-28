@@ -4,7 +4,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 open_ai_llm = ChatOpenAI(
     model_name="gpt-5",
-    openai_api_key="",
+    openai_api_key="***",
     # temperature=0,
 )
 

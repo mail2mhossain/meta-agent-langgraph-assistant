@@ -118,6 +118,11 @@ def build_multi_agent_graph(plan: Plan, tool_registry: Dict[str, Callable]):
         
         if conditional_edges:
             # Create a routing function that evaluates all conditions
+            # ⚠️ CRITICAL SECURITY WARNING
+            # The eval() function below is for educational purposes only. DO NOT use in production.
+            # The Risk
+            # Since conditions come from LLM output, an attacker could inject malicious code:
+            # python"condition": "__import__('os').system('rm -rf /')"  # Executes on your system!
             def make_router(cond_edges: List[EdgeSpec], direct_edges_list: List[EdgeSpec], src: str):
                 def route(state: MultiAgentState) -> str:
                     log.debug(f"[ROUTER] Evaluating conditions for {src}")
